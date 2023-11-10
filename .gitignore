@@ -1,0 +1,26 @@
+# Node.js geçici dosyaları
+node_modules/
+
+# MacOS geçici dosyaları
+.DS_Store
+
+# Log dosyaları
+*.log
+
+# Derleme ve yapılandırma dosyaları
+*.swp
+*.swo
+*.swn
+*.out
+*.pid
+*.pid.lock
+
+# Yerel yapılandırma dosyaları
+.env
+
+# Veritabanı dosyaları
+*.sqlite
+
+# Yerel dosya sistemi köküne ait dosyalar
+Desktop.ini
+Thumbs.db

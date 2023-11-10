@@ -1,0 +1,15 @@
+{
+  "currentS": {
+    "UserId": "12345",
+    "balance": 100
+  },
+  "query": {
+    "operation": "update",
+    "field": "balance",
+    "newData": 110
+  },
+  "afterS": {
+    "field": "balance",
+    "newData": 110
+  }
+}
