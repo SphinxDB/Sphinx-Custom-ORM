@@ -152,7 +152,7 @@ db.once("open", () => {
       console.error("Error deleting user:", err);
       result.error = err;
     } finally {
-      db.close();
+      //db.close();
     }
 
     return result;
