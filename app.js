@@ -1,7 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors");
+const cors = require("cors"); // CORS paketini ekleyin
 const app = express();
+const bodyParser = require("body-parser");
+
+app.use(bodyParser.json());
 
 app.use(cors());
 mongoose.connect("mongodb://localhost:27017/test", {
@@ -74,7 +77,7 @@ db.once("open", () => {
       query: {
         operation: "update",
         field: "balance",
-        newData: newBalance,
+        newData: { UserId: userId, balance: newBalance },
       },
       afterState: null,
     };
@@ -112,6 +115,7 @@ db.once("open", () => {
         result.afterState = userObj1;
       } else {
         console.log("User not found.");
+        return "User not found.";
       }
     } catch (err) {
       console.error("Error updating user:", err);
@@ -146,6 +150,7 @@ db.once("open", () => {
         // currentState güncelleme
         result.currentState = userObj;
       } else {
+        return "User not found.";
         console.log("User not found.");
       }
     } catch (err) {
@@ -190,6 +195,35 @@ db.once("open", () => {
       res.status(200).json(result);
     } catch (error) {
       res.status(500).json({ message: "Error deleting user", error });
+    }
+  });
+
+  app.post("/userOperation", async (req, res) => {
+    const data = req.body;
+
+    console.log(data);
+
+    try {
+      let result;
+
+      switch (data.operation) {
+        case "insert":
+          result = await addUser(data.UserId, data.balance);
+          break;
+        case "update":
+          result = await updateUser(data.UserId, data.balance);
+          break;
+        case "delete":
+          result = await deleteUser(data.UserId);
+          break;
+        default:
+          return res.status(400).json({ message: "Invalid operation" });
+      }
+      console.log(result);
+      res.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Server error", error });
     }
   });
 });
